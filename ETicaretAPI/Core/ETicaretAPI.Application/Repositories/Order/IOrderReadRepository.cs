@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETicaretAPI.Application.Abstractions
+
+namespace ETicaretAPI.Application.Repositories
 {
-    public interface IProductService
+    public interface IOrderReadRepository : IReadRepository<Order>
     {
-        List<Product> GetProducts();
-        
     }
 }

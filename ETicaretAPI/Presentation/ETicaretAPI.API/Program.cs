@@ -1,6 +1,10 @@
+﻿using ETicaretAPI.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddPersistenceServices(builder.Configuration.GetConnectionString("PostgreSQL"));
+// yukarıdakinin aynısı 
+//ServiceRegistration.AddPersistenceServices(builder.Services, builder.Configuration.GetConnectionString("PostgreSQL"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
