@@ -1,6 +1,7 @@
 ﻿using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace ETicaretAPI.Persistence.Contexts
 {
@@ -26,6 +27,7 @@ namespace ETicaretAPI.Persistence.Contexts
                 {
                     EntityState.Modified => data.Entity.UpdateDate = DateTime.UtcNow,
                     EntityState.Added => data.Entity.CreateDate = DateTime.UtcNow,
+                    _ => DateTime.UtcNow
                 };
             }
             return await base.SaveChangesAsync(cancellationToken);
