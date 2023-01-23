@@ -4,6 +4,7 @@ import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
 import { Product } from 'src/app/contracts/product';
 import { HttpClientService } from 'src/app/services/common/http-client.service';
 
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
