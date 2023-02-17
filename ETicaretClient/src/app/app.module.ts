@@ -11,11 +11,14 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { BaseComponent } from './base/base.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DeleteDirective } from './directives/admin/delete.directive';
+import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    AppComponent
-       
+    AppComponent,
+    DeleteDialogComponent
   ],
   imports: [
     BrowserModule, 
@@ -25,7 +28,9 @@ import { DeleteDirective } from './directives/admin/delete.directive';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     NgxSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [{
     provide: "baseUrl", useValue: "https://localhost:7225/api", multi: true}],

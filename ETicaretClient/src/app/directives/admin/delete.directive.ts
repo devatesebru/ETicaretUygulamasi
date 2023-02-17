@@ -39,7 +39,13 @@ export class DeleteDirective {
       this.spinner.show(SpinnerType.BallAtom);
       const td: HTMLTableCellElement = this.element.nativeElement;
       await this.productService.delete(this.id);
-      $(td.parentElement).fadeOut(2000, () => { this.callback.emit() });
+      $(td.parentElement).animate({
+        opacity: 0,
+        left: "+=50",
+        height:"toogle"
+      }, 700, () => {
+        this.callback.emit();
+      })
 
     });   
 
