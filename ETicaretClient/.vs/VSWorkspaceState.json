@@ -6,11 +6,9 @@
     "\\src\\app\\admin",
     "\\src\\app\\admin\\components",
     "\\src\\app\\admin\\components\\products",
-    "\\src\\app\\contracts",
-    "\\src\\app\\services",
-    "\\src\\app\\services\\common",
-    "\\src\\app\\services\\common\\models"
+    "\\src\\app\\admin\\components\\products\\list",
+    "\\src\\app\\dialogs",
+    "\\src\\app\\directives"
   ],
-  "SelectedNode": "\\src\\app\\services\\common\\models\\product.service.ts",
   "PreviewInSolutionExplorer": false
 }

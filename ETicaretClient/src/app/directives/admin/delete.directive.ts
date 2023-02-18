@@ -17,7 +17,7 @@ export class DeleteDirective {
   constructor(
     private element: ElementRef,
     private _renderer: Renderer2,
-    private productService: ProductService,
+    private httpClientService: HttpClientService,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog
   ) {
@@ -32,20 +32,26 @@ export class DeleteDirective {
 
   @Output() callback: EventEmitter<any> = new EventEmitter();
 
+  @Input() controller: string;
+
   @HostListener("click")
   async onclick() {
 
     this.openDialog(async () => {
       this.spinner.show(SpinnerType.BallAtom);
       const td: HTMLTableCellElement = this.element.nativeElement;
-      await this.productService.delete(this.id);
-      $(td.parentElement).animate({
-        opacity: 0,
-        left: "+=50",
-        height:"toogle"
-      }, 700, () => {
-        this.callback.emit();
-      })
+      await this.httpClientService.delete({
+        controller: this.controller
+      }, this.id).subscribe(data => {
+        $(td.parentElement).animate({
+          opacity: 0,
+          left: "+=50",
+          height: "toogle"
+        }, 700, () => {
+          this.callback.emit();
+        });
+
+      });
 
     });   
 
