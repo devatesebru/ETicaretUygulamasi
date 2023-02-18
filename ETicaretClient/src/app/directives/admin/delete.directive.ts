@@ -5,6 +5,8 @@ import { HttpClientService } from '../../services/common/http-client.service';
 import { ProductService } from '../../services/common/models/product.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DeleteDialogComponent, DeleteState } from '../../dialogs/delete-dialog/delete-dialog.component';
+import { AlertifyService, MessageType, Position } from '../../services/admin/alertify.service';
+import { HttpErrorResponse } from '@angular/common/http';
 declare var $: any;
 
 @Directive({
@@ -19,7 +21,8 @@ export class DeleteDirective {
     private _renderer: Renderer2,
     private httpClientService: HttpClientService,
     private spinner: NgxSpinnerService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertify: AlertifyService
   ) {
     const img = _renderer.createElement("img");
     img.setAttribute("src", "../../../../../assets/delete.png");
@@ -49,8 +52,22 @@ export class DeleteDirective {
           height: "toogle"
         }, 700, () => {
           this.callback.emit();
+          this.alertify.message("Ürün başarıyla silindi", {
+            dismissOthers: true,
+            messageType: MessageType.Success,
+            position: Position.TopRight
+
+          })
         });
 
+      }, (errorResponse: HttpErrorResponse) => {
+        this.spinner.hide(SpinnerType.BallAtom);
+        this.alertify.message("ürün silinmede hata oluştu!! ", {
+          dismissOthers: true,
+          messageType: MessageType.Error,
+          position: Position.TopRight
+
+        })
       });
 
     });   
