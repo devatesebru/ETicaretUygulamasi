@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DeleteDirective } from '../../../directives/admin/delete.directive';
+import { FileUploadModule } from '../../../services/common/file-upload/file-upload.module';
 
 
 
@@ -31,7 +32,8 @@ import { DeleteDirective } from '../../../directives/admin/delete.directive';
     MatInputModule,
     MatButtonModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FileUploadModule
 
   ]
 })
