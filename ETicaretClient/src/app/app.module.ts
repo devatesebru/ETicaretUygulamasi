@@ -15,12 +15,12 @@ import { DeleteDialogComponent } from './dialogs/delete-dialog/delete-dialog.com
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
+import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DeleteDialogComponent,
-
+   /* DeleteDialogComponent*/
   ],
   imports: [
     BrowserModule, 

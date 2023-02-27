@@ -1,8 +1,11 @@
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { FileUploadDialogComponent, FileUploadDialogState } from '../../../dialogs/file-upload-dialog/file-upload-dialog.component';
 import { AlertifyService, MessageType, Position } from '../../admin/alertify.service';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../ui/custom-toastr.service';
+import { DialogService } from '../dialog.service';
 import { HttpClientService } from '../http-client.service';
 
 @Component({
@@ -15,6 +18,8 @@ export class FileUploadComponent {
     private httpClientService: HttpClientService,
     private alertifyService: AlertifyService,
     private customtoastrService: CustomToastrService,
+    private dialog: MatDialog,
+    private dialogServices: DialogService
   ) { }
 
 
@@ -23,6 +28,7 @@ export class FileUploadComponent {
   @Input() options: Partial<FileUploadOptions>;
 
   public selectedFiles(files: NgxFileDropEntry[]) {
+    debugger;
     this.files = files;
     const fileData: FormData = new FormData();
     for (const file of files) {
@@ -31,59 +37,86 @@ export class FileUploadComponent {
       });
     }
 
-    this.httpClientService.post({
-      controller: this.options.controller,
-      action: this.options.action,
-      queryString: this.options.queryString,
-      headers: new HttpHeaders({ "responseType": "blob" })
+    this.dialogServices.openDialog({      
+      componentType: FileUploadDialogComponent,
+      data: FileUploadDialogState.Yes,
+      afterClosed: async () => {
+        this.httpClientService.post({
+          controller: this.options.controller,
+          action: this.options.action,
+          queryString: this.options.queryString,
+          headers: new HttpHeaders({ "responseType": "blob" })
 
 
-    }, fileData).subscribe(data => {
-      const message: string = "Dosyalar başarıyla yüklenmiştir";
-      if (this.options.isAdminPage) {
-        this.alertifyService.message(message,{
-          dismissOthers: true,
-          messageType: MessageType.Success,
-          position: Position.TopRight,
+        }, fileData).subscribe(data => {   
+          const message: string = "Dosyalar başarıyla yüklenmiştir";
+          if (this.options.isAdminPage) {
+            this.alertifyService.message(message, {
+              dismissOthers: true,
+              messageType: MessageType.Success,
+              position: Position.TopRight,
 
 
 
-        })
+            })
+          }
+          else {
+            this.customtoastrService.message(message, "Başarılı.",
+              {
+                messageType: ToastrMessageType.Success,
+                position: ToastrPosition.TopRight
+
+              })
+          }
+
+
+        }, (errorResponse: HttpErrorResponse) => {
+          const message: string = "Dosyalar yüklenirken beklenmeyen bir hatayla karşılaşılmıştır";
+          if (this.options.isAdminPage) {
+            this.alertifyService.message(message, {
+              dismissOthers: true,
+              messageType: MessageType.Error,
+              position: Position.TopRight,
+
+
+
+            })
+          }
+          else {
+            this.customtoastrService.message(message, "Başarısız.",
+              {
+                messageType: ToastrMessageType.Error,
+                position: ToastrPosition.TopRight
+
+              })
+          }
+        });
+
+
+
       }
-      else {
-        this.customtoastrService.message(message, "Başarılı.",
-          {
-            messageType: ToastrMessageType.Success,
-            position: ToastrPosition.TopRight
 
-          })
-      }
+      
 
-
-    }, (errorResponse: HttpErrorResponse) => {
-      const message: string = "Dosyalar yüklenirken beklenmeyen bir hatayla karşılaşılmıştır";
-      if (this.options.isAdminPage) {
-        this.alertifyService.message(message, {
-          dismissOthers: true,
-          messageType: MessageType.Error,
-          position: Position.TopRight,
-
-
-
-        })
-      }
-      else {
-        this.customtoastrService.message(message, "Başarısız.",
-          {
-            messageType: ToastrMessageType.Error,
-            position: ToastrPosition.TopRight
-
-          })
-      }
-     });
-
-
+    });
+  
   }
+
+  //openDialog(afterClosed: any): void {
+  //  const dialogRef = this.dialog.open(FileUploadDialogComponent, {
+  //    width: '250px',
+  //    data: FileUploadDialogState.Yes,
+  //  });
+
+  //  dialogRef.afterClosed().subscribe(result => {
+  //    if (result == FileUploadDialogState.Yes)
+  //      afterClosed();
+  //    else
+  //      this.files.pop();
+
+  //  });
+  //}
+
 }
 export class FileUploadOptions{
   controller?: string;

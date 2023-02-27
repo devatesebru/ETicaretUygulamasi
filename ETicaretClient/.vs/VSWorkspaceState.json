@@ -11,5 +11,6 @@
     "\\src\\app\\services\\common",
     "\\src\\app\\services\\common\\file-upload"
   ],
+  "SelectedNode": "\\src\\app\\admin\\components\\products\\create\\create.component.ts",
   "PreviewInSolutionExplorer": false
 }
