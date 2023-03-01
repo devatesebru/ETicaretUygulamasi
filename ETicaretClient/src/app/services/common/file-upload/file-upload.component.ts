@@ -2,6 +2,8 @@ import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerType } from '../../../base/base.component';
 import { FileUploadDialogComponent, FileUploadDialogState } from '../../../dialogs/file-upload-dialog/file-upload-dialog.component';
 import { AlertifyService, MessageType, Position } from '../../admin/alertify.service';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../ui/custom-toastr.service';
@@ -19,7 +21,8 @@ export class FileUploadComponent {
     private alertifyService: AlertifyService,
     private customtoastrService: CustomToastrService,
     private dialog: MatDialog,
-    private dialogServices: DialogService
+    private dialogServices: DialogService,
+    private spinner: NgxSpinnerService
   ) { }
 
 
@@ -41,6 +44,7 @@ export class FileUploadComponent {
       componentType: FileUploadDialogComponent,
       data: FileUploadDialogState.Yes,
       afterClosed: async () => {
+        this.spinner.show(SpinnerType.BallAtom)
         this.httpClientService.post({
           controller: this.options.controller,
           action: this.options.action,
@@ -50,14 +54,12 @@ export class FileUploadComponent {
 
         }, fileData).subscribe(data => {   
           const message: string = "Dosyalar başarıyla yüklenmiştir";
+          this.spinner.hide(SpinnerType.BallAtom)
           if (this.options.isAdminPage) {
             this.alertifyService.message(message, {
               dismissOthers: true,
               messageType: MessageType.Success,
               position: Position.TopRight,
-
-
-
             })
           }
           else {
@@ -68,6 +70,7 @@ export class FileUploadComponent {
 
               })
           }
+          
 
 
         }, (errorResponse: HttpErrorResponse) => {
@@ -77,9 +80,6 @@ export class FileUploadComponent {
               dismissOthers: true,
               messageType: MessageType.Error,
               position: Position.TopRight,
-
-
-
             })
           }
           else {
@@ -90,33 +90,15 @@ export class FileUploadComponent {
 
               })
           }
+        
         });
-
-
-
-      }
-
-      
+      }     
 
     });
   
   }
 
-  //openDialog(afterClosed: any): void {
-  //  const dialogRef = this.dialog.open(FileUploadDialogComponent, {
-  //    width: '250px',
-  //    data: FileUploadDialogState.Yes,
-  //  });
-
-  //  dialogRef.afterClosed().subscribe(result => {
-  //    if (result == FileUploadDialogState.Yes)
-  //      afterClosed();
-  //    else
-  //      this.files.pop();
-
-  //  });
-  //}
-
+  
 }
 export class FileUploadOptions{
   controller?: string;

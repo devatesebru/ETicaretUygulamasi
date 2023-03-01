@@ -3,6 +3,7 @@ using ETicaretAPI.Application.RequestParameters;
 using ETicaretAPI.Application.Services;
 using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
+using ETicaretAPI.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Net;
@@ -17,25 +18,33 @@ namespace ETicaretAPI.API.Controllers
     {
         readonly private IProductWriteRepository _productWriteRepository;
         readonly private IProductReadRepository _productReadRepository;
-        readonly private IWebHostEnvironment _webHostEnvironment;
         readonly IFileService _fileService;
+        readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
+        readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
 
 
 
-       public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IWebHostEnvironment webHostEnvironment, IFileService fileService)
+
+        public ProductsController(
+            IProductWriteRepository productWriteRepository,
+            IProductReadRepository productReadRepository,
+            IFileService fileService,
+            IProductImageFileWriteRepository productImageFileWriteRepository,
+            IInvoiceFileWriteRepository invoiceFileWriteRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
-            this._webHostEnvironment = webHostEnvironment;
             this._fileService = fileService;
+            _productImageFileWriteRepository = productImageFileWriteRepository;
+            _invoiceFileWriteRepository = invoiceFileWriteRepository;
         }
 
 
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
         {
-      
+
             var totalCount = _productReadRepository.GetAll(false).Count();
             var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
             {
@@ -107,11 +116,26 @@ namespace ETicaretAPI.API.Controllers
         //https://...api/controller/action
         public async Task<IActionResult> Upload()
         {
-         await _fileService.UploadAsync("resource/product-images", Request.Form.Files);
+            var datas = await _fileService.UploadAsync("resource/invoices", Request.Form.Files);
+            await _productImageFileWriteRepository.AddRangeAsync(datas.Select(data => new ProductImageFile()
+            {
+                FileName = data.fileName,
+                Path = data.path
+            }).ToList());
+            await _productImageFileWriteRepository.SaveAsync();
+
+            //await _invoiceFileWriteRepository.AddRangeAsync(datas.Select(data => new InvoiceFile()
+            //{
+            //    FileName = data.fileName,
+            //    Path = data.path,
+            //    Price = new Random().Next()
+            //}).ToList()) ;
+            //await _invoiceFileWriteRepository.SaveAsync(); 
+
             return Ok();
         }
 
-    
+
 
     }
 }
