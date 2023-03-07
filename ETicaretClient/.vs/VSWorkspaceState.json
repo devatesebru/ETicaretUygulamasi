@@ -1,17 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\app",
-    "\\src\\app\\dialogs",
-    "\\src\\app\\dialogs\\base",
-    "\\src\\app\\dialogs\\file-upload-dialog",
-    "\\src\\app\\directives",
-    "\\src\\app\\directives\\admin",
-    "\\src\\app\\services",
-    "\\src\\app\\services\\common",
-    "\\src\\app\\services\\common\\file-upload"
+    ""
   ],
-  "SelectedNode": "\\src\\app\\dialogs\\base\\base-dialog.ts",
   "PreviewInSolutionExplorer": false
 }

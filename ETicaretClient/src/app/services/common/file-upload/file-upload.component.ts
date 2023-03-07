@@ -69,10 +69,7 @@ export class FileUploadComponent {
                 position: ToastrPosition.TopRight
 
               })
-          }
-          
-
-
+          }          
         }, (errorResponse: HttpErrorResponse) => {
           const message: string = "Dosyalar yüklenirken beklenmeyen bir hatayla karşılaşılmıştır";
           if (this.options.isAdminPage) {
@@ -84,21 +81,16 @@ export class FileUploadComponent {
           }
           else {
             this.customtoastrService.message(message, "Başarısız.",
-              {
+            {
                 messageType: ToastrMessageType.Error,
                 position: ToastrPosition.TopRight
 
-              })
-          }
-        
+            })
+          }        
         });
-      }     
-
-    });
-  
-  }
-
-  
+      }    
+    });  
+  }    
 }
 export class FileUploadOptions{
   controller?: string;
