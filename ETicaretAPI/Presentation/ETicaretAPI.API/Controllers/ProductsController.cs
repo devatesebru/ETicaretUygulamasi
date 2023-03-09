@@ -6,6 +6,7 @@ using ETicaretAPI.Application.ViewModels.Products;
 using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
 using System.Data;
 using System.Net;
 
@@ -115,30 +116,33 @@ namespace ETicaretAPI.API.Controllers
 
         [HttpPost("[action]")]
         //https://...api/controller/action
-        public async Task<IActionResult> Upload()
-        {
-            var datas = await _storageService.UploadAsync("resource/files", Request.Form.Files);
-            //var datas = await _fileService.UploadAsync("resource/invoices", Request.Form.Files);
-           await _productImageFileWriteRepository.AddRangeAsync(datas.Select( data => new ProductImageFile()
+        public async Task<IActionResult> Upload(string id)
+        {         
+          List<(string fileName, string pathOrContainerName)> result= await  _storageService.UploadAsync("photo-images", Request.Form.Files);
+
+            Product product = await _productReadRepository.GetByIdAsync(id);
+
+            //foreach (var r in result)
+            //{
+            //    product.ProductImageFiles.Add(new()
+            //    {
+            //        FileName = r.fileName,
+            //        Path = r.pathOrContainerName,
+            //        Storage=_storageService.StorageName,
+            //        Products=new List<Product>() { product }
+            //    });
+            //}
+
+            await _productImageFileWriteRepository.AddRangeAsync(result.Select(r => new ProductImageFile
             {
-                FileName = data.fileName,
-                Path = data.pathOrContainerName,
-                Storage=_storageService.StorageName
+                FileName = r.fileName,
+                Path = r.pathOrContainerName,
+                Storage = _storageService.StorageName,
+                Products = new List<Product>() { product }
+
             }).ToList());
             await _productImageFileWriteRepository.SaveAsync();
-
-            //await _invoiceFileWriteRepository.AddRangeAsync(datas.Select(data => new InvoiceFile()
-            //{
-            //    FileName = data.fileName,
-            //    Path = data.path,
-            //    Price = new Random().Next()
-            //}).ToList()) ;
-            //await _invoiceFileWriteRepository.SaveAsync(); 
-
             return Ok();
         }
-
-
-
     }
 }

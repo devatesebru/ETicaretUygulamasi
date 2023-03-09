@@ -16,9 +16,7 @@ export class DeleteDialogComponent extends BaseDialog<DeleteDialogComponent> {
   ) {
 
     super(dialogRef);
-}
-
-  
+  } 
 
 }
 

@@ -3,10 +3,9 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\services",
-    "\\src\\app\\services\\common",
-    "\\src\\app\\services\\common\\file-upload"
+    "\\src\\app\\services\\common\\file-upload",
+    "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\app\\services\\common\\file-upload\\file-upload.component.ts",
+  "SelectedNode": "\\src\\assets\\photo.png",
   "PreviewInSolutionExplorer": false
 }

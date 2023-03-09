@@ -15,6 +15,7 @@ namespace ETicaretAPI.Domain.Entities
 
         public ICollection<Order> Orders { get; set; }
         //karşılıklı yaptığımızdan çok a çok ilişki oldu 
+        public ICollection<ProductImageFile> ProductImageFiles { get; set; }
 
     }
 }
