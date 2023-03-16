@@ -7,9 +7,12 @@ using ETicaretAPI.Domain.Entities;
 using ETicaretAPI.Persistence.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.IO;
 using System.Net;
-
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ETicaretAPI.API.Controllers
 {
@@ -24,6 +27,7 @@ namespace ETicaretAPI.API.Controllers
         readonly IProductImageFileWriteRepository _productImageFileWriteRepository;
         readonly IInvoiceFileWriteRepository _invoiceFileWriteRepository;
         readonly IStorageService _storageService;
+        readonly IConfiguration configuration;
 
         public ProductsController(
             IProductWriteRepository productWriteRepository,
@@ -31,7 +35,8 @@ namespace ETicaretAPI.API.Controllers
             //IFileService fileService,
             IProductImageFileWriteRepository productImageFileWriteRepository,
             IInvoiceFileWriteRepository invoiceFileWriteRepository,
-            IStorageService storageService)
+            IStorageService storageService,
+            IConfiguration configuration)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
@@ -39,6 +44,7 @@ namespace ETicaretAPI.API.Controllers
             _productImageFileWriteRepository = productImageFileWriteRepository;
             _invoiceFileWriteRepository = invoiceFileWriteRepository;
             _storageService = storageService;
+            this.configuration = configuration;
         }
 
 
@@ -144,5 +150,40 @@ namespace ETicaretAPI.API.Controllers
             await _productImageFileWriteRepository.SaveAsync();
             return Ok();
         }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<IActionResult> GetProductImages(string id)
+        {
+          Product? product = await  _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+            return Ok(product.ProductImageFiles.Select(p => new
+            {
+              Path= p.Storage == "LocalStorage" ? GetBase64($"{configuration["BaseStorageUrl"]}/{p.Path}") : $"{configuration["BaseStorageUrl"]}/{p.Path}",
+                p.FileName,
+                p.Id
+            }));
+        }
+
+        private string GetBase64(string path)
+        {
+            var fileData = System.IO.File.ReadAllBytes(path);
+
+            if (fileData == null)
+                return String.Empty;
+
+            string base64String = Convert.ToBase64String(fileData, 0, fileData.Length);
+            return "data:image/png;base64," + base64String;
+        }
+
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> DeleteProductImage(string id, string imageId)
+        {
+
+            Product? product = await _productReadRepository.Table.Include(p => p.ProductImageFiles).FirstOrDefaultAsync(p => p.Id == Guid.Parse(id));
+          ProductImageFile  productImageFile= product.ProductImageFiles.FirstOrDefault(p => p.Id == Guid.Parse(imageId));
+            product.ProductImageFiles.Remove(productImageFile);
+          await  _productWriteRepository.SaveAsync();
+            return Ok();
+        }
+
     }
 }

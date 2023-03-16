@@ -3,9 +3,14 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\services\\common\\file-upload",
-    "\\src\\assets"
+    "\\src\\app\\directives",
+    "\\src\\app\\directives\\admin",
+    "\\src\\app\\services",
+    "\\src\\app\\services\\admin",
+    "\\src\\app\\services\\common",
+    "\\src\\app\\services\\common\\models",
+    "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\assets\\photo.png",
+  "SelectedNode": "\\src\\favicon.ico",
   "PreviewInSolutionExplorer": false
 }

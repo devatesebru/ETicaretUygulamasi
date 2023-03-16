@@ -37,5 +37,10 @@ namespace ETicaretAPI.Persistence.Contexts
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+        public void RunMigration()
+        {
+            Database.EnsureCreated();
+
+        }
     }
 }
