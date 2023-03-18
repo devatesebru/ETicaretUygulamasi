@@ -3,14 +3,13 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\directives",
-    "\\src\\app\\directives\\admin",
+    "\\src\\app\\contracts",
+    "\\src\\app\\dialogs",
+    "\\src\\app\\dialogs\\delete-dialog",
     "\\src\\app\\services",
-    "\\src\\app\\services\\admin",
     "\\src\\app\\services\\common",
     "\\src\\app\\services\\common\\models",
     "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\favicon.ico",
   "PreviewInSolutionExplorer": false
 }
