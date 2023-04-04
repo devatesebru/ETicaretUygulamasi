@@ -1,4 +1,5 @@
 ﻿using ETicaretAPI.Application.Repositories;
+using ETicaretAPI.Domain.Entities.Identity;
 using ETicaretAPI.Persistence.Contexts;
 using ETicaretAPI.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,14 @@ namespace ETicaretAPI.Persistence
         {
             //burada hangi database kullanacaksak onun kütüphanesini yüklemek lazım  
             services.AddDbContext<ETicaretAPIDbContext>(options => options.UseNpgsql(connectionString));
+            services.AddIdentity<AppUser, AppRole>(options =>
+            {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            }).AddEntityFrameworkStores<ETicaretAPIDbContext>();
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();  
