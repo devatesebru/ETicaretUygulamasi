@@ -4,13 +4,13 @@
     <form [formGroup]="frm" (ngSubmit)="onSubmit(frm.value)">
       <div class="mb-1">
         <label for="nameSurname" class="form-label">Ad Soyad</label>
-        <input type="text" formControlName="nameSurname" class="form-control" id="nameSurname" aria-describedby="Ad Soyad" [ngClass]="{'is-invalid': submitted && component.nameSurname.errors}">
+        <input type="text" formControlName="nameSurname" class="form-control" id="nameSurname" aria-describedby="Ad Soyad"  placeholder="Ad Soyad" [ngClass]="{'is-invalid': submitted && component.nameSurname.errors}">
         <div class="form-text invalid-feedback" *ngIf="submitted && component.nameSurname.errors?.required"> Lütfen ad soyadı boş geçmeyiniz.</div>
         <div  class="form-text invalid-feedback" *ngIf="submitted && (component.nameSurname.errors?.maxlength)||(component.nameSurname.errors?.minlength)"> Lütfen ad soyadı 3 ile 50 karakter arasında yazınız.</div>
       </div>
       <div class="mb-1">
         <label for="username" class="form-label">Kullanıcı Adı</label>
-        <input type="text" formControlName="username" class="form-control" id="username" aria-describedby="Kullanıcı Adı" [ngClass]="{'is-invalid': submitted && component.username.errors}">
+        <input type="text" formControlName="username" class="form-control" id="username" aria-describedby="Kullanıcı Adı"  placeholder="Kullanıcı Adı" [ngClass]="{'is-invalid': submitted && component.username.errors}">
         <div id="emailHelp" class="form-text invalid-feedback" *ngIf="submitted && component.username.errors?.required"> Lütfen kullanıcı adını boş geçmeyiniz.</div>
       </div>
       <div class="mb-1">
