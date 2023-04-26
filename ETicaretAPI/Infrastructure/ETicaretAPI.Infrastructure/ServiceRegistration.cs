@@ -1,4 +1,5 @@
 ﻿
+using ETicaretAPI.Application.Abstractions;
 using ETicaretAPI.Application.Abstractions.Storage;
 using ETicaretAPI.Infrastructure.Enums;
 using ETicaretAPI.Infrastructure.Services;
@@ -21,6 +22,7 @@ namespace ETicaretAPI.Infrastructure
         public static void AddInfrastructureServices(this IServiceCollection servisCollection)
         {
             servisCollection.AddScoped<IStorageService, StorageService>();
+            servisCollection.AddScoped<ITokenHandler, TokenHandler>();
 
         }
 
