@@ -15,7 +15,7 @@ import { BaseComponent, SpinnerType } from 'src/app/base/base.component';
     }
   
     ngOnInit(): void {
-      this.showSpinner(SpinnerType.BallAtom);
+ 
     
   
     }

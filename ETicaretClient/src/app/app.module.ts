@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FileUploadComponent } from './services/common/file-upload/file-upload.component';
 import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,11 @@ import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upl
     NgxSpinnerModule,
     HttpClientModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    JwtModule.forRoot({
+      config: { tokenGetter: () => localStorage.getItem("accessToken"), allowedDomains:["localhost:7225"]}
+
+    })
   ],
   providers: [{
     provide: "baseUrl", useValue: "https://localhost:7225/api", multi: true}],
