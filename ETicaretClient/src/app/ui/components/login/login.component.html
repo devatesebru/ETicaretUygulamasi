@@ -2,18 +2,21 @@
   <div class="col-md-3"></div>
   <div class="col-md-6">
 
-      <div class="mb-1">
-        <label for="userName" class="form-label">Kullanıcı Adı</label>
-        <input #txtUserNameOrEmail type="text" class="form-control" id="userName"  placeholder="Kullanıcı Adı & Email" aria-describedby="Kullanıcı Adı & Email" >
-        <div class="form-text invalid-feedback" > ******</div>    
-      </div>
-      <div class="mb-1">
-        <label for="password" class="form-label">Şifre</label>
-        <input #txtPassword type="password" class="form-control" id="password" placeholder="Şifre" >
-      </div>  
-      <br />
-      <button type="submit" class="btn btn-primary" (click)="login(txtUserNameOrEmail.value,txtPassword.value)">Giriş Yap</button>
-  
+    <div class="mb-1">
+      <label for="userName" class="form-label">Kullanıcı Adı</label>
+      <input #txtUserNameOrEmail type="text" class="form-control" id="userName" placeholder="Kullanıcı Adı & Email" aria-describedby="Kullanıcı Adı & Email">
+      <div class="form-text invalid-feedback"> ******</div>
+    </div>
+    <div class="mb-1">
+      <label for="password" class="form-label">Şifre</label>
+      <input #txtPassword type="password" class="form-control" id="password" placeholder="Şifre">
+    </div>
+    <br />
+
+
+    <asl-google-signin-button></asl-google-signin-button>
+    <button type="submit" class="btn btn-primary" (click)="login(txtUserNameOrEmail.value,txtPassword.value)">Giriş Yap</button>
+
 
   </div>
   <div class="col-md-3"></div>

@@ -1,3 +1,4 @@
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,8 +13,12 @@ import { UserService } from '../../../services/common/models/user.service';
 })
 export class LoginComponent extends BaseComponent  {
 
-  constructor(private userService: UserService, spinner: NgxSpinnerService, private authService: AuthService, private activatedRoute: ActivatedRoute, private router: Router) {
-  super(spinner)}
+  constructor(private userService: UserService, spinner: NgxSpinnerService, private authService: AuthService, private activatedRoute: ActivatedRoute, private router: Router, private socialAuthService: SocialAuthService) {
+    super(spinner)
+    this.socialAuthService.authState.subscribe((user: SocialUser) => {
+      console.log(user);
+    });
+  }
 
   async login(userNameOrEmail: string, password: string) {
     this.showSpinner(SpinnerType.BallAtom);
