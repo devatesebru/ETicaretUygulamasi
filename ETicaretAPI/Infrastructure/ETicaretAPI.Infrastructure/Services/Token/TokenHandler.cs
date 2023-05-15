@@ -20,7 +20,7 @@ namespace ETicaretAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public Application.DTOs.Token CreateAccessToken(int minute)
+        public Application.DTOs.Token CreateAccessToken(int second)
         {
             Token token = new();
             //security key in simetriğini alıyoruz
@@ -28,7 +28,7 @@ namespace ETicaretAPI.Infrastructure.Services
             //şifrelenmiş kimliği oluşturuyoruz
             SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.HmacSha256);
             //oluşturulan token ayarlarını veriyoruz
-            token.Expiration = DateTime.UtcNow.AddMinutes(minute);
+            token.Expiration = DateTime.UtcNow.AddMinutes(second);
             JwtSecurityToken securityToken = new(
                 audience: _configuration["Token:Audience"],
                 issuer: _configuration["Token:Issuer"],
