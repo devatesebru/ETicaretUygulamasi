@@ -1,4 +1,5 @@
 ﻿using ETicaretAPI.Application.DTOs.User;
+using ETicaretAPI.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace ETicaretAPI.Application.Abstractions.Services
     {
         //burada ben sana CreateUser türünden bir nesne vereceğim sende dönüş olarak bana CreateUserResponse verecek.
         Task<CreateUserResponse> CreateAsync(CreateUser model);
+       
     }
 }

@@ -1,11 +1,13 @@
 ﻿using ETicaretAPI.Application.Abstractions;
 using ETicaretAPI.Application.DTOs;
+using ETicaretAPI.Domain.Entities.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +22,7 @@ namespace ETicaretAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
-        public Application.DTOs.Token CreateAccessToken(int second)
+        public Application.DTOs.Token CreateAccessToken(int second ,AppUser user)
         {
             Token token = new();
             //security key in simetriğini alıyoruz
@@ -37,7 +39,8 @@ namespace ETicaretAPI.Infrastructure.Services
                 //üretilir üretilmez devreye giricek
                 notBefore: DateTime.UtcNow,
                 //şifresi burada saklanmış
-                signingCredentials:signingCredentials          
+                signingCredentials:signingCredentials     ,
+                claims: new List<Claim> { new(ClaimTypes.Name, user.UserName)}
                 );
 
             //Token oluşturucu sınıfından bir örnek alalım.

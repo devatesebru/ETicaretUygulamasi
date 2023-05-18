@@ -65,7 +65,7 @@ namespace ETicaretAPI.Persistence.Services
             if (result)
             {
                 await _userManager.AddLoginAsync(user, info); //AspNetUserLogins
-                Token token = _tokenHandler.CreateAccessToken(5);
+                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTime,user);
                 return token;
             }
             throw new Exception("Invalid external authentication");
@@ -134,7 +134,7 @@ namespace ETicaretAPI.Persistence.Services
             if (result.Succeeded)//authentication başarılı oluyor
             {
                 ///yetkileri belirleyeceğiz
-                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTİme);
+                Token token = _tokenHandler.CreateAccessToken(accessTokenLifeTİme,user);
                 return token;              
              
             }

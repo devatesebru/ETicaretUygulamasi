@@ -39,5 +39,7 @@ namespace ETicaretAPI.Persistence.Services
                     response.Message += $"{error.Code} - {error.Description}\n";
             return response;
         }
+
+      
     }
 }
