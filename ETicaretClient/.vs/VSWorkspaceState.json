@@ -6,5 +6,6 @@
     "\\src\\app\\services",
     "\\src\\app\\services\\common"
   ],
+  "SelectedNode": "\\src\\app\\services\\common\\signalr.service.ts",
   "PreviewInSolutionExplorer": false
 }

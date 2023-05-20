@@ -21,7 +21,7 @@ namespace ETicaretAPI.Application.Features.Commands.AppUser.FacebookLogin
         async Task<FacebookLoginCommandResponse> IRequestHandler<FacebookLoginCommandRequest, FacebookLoginCommandResponse>.Handle(FacebookLoginCommandRequest request, CancellationToken cancellationToken)
         {
 
-          var token =  await _authService.FacebookLoginAsync(request.AuthToken,15);
+          var token =  await _authService.FacebookLoginAsync(request.AuthToken,900);
             return new()
             {
                 Token = token
