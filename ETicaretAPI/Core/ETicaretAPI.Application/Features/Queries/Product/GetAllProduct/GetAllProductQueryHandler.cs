@@ -1,7 +1,10 @@
-﻿using ETicaretAPI.Application.Repositories;
+﻿using ETicaretAPI.Application.Features.Queries.ProductImageFile.GetProductImages;
+using ETicaretAPI.Application.Repositories;
 using ETicaretAPI.Application.RequestParameters;
+using ETicaretAPI.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,10 +20,13 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct
     {
         readonly IProductReadRepository _productReadRepository;
         readonly ILogger<GetAllProductQueryHandler> _logger;
-        public GetAllProductQueryHandler(IProductReadRepository productReadRepository, ILogger<GetAllProductQueryHandler> logger)
+        private readonly IConfiguration configuration;
+
+        public GetAllProductQueryHandler(IProductReadRepository productReadRepository, ILogger<GetAllProductQueryHandler> logger, IConfiguration configuration)
         {
             this._productReadRepository = productReadRepository;
             _logger = logger;
+            this.configuration = configuration;
         }
         public async Task<GetAllProductQueryResponse> Handle(GetAllProductQueryRequest request, CancellationToken cancellationToken)
         {
@@ -36,8 +42,12 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct
                 p.Price,
                 p.CreatedDate,
                 p.UpdatedDate,
-                p.ProductImageFiles
-            }).ToList();
+                ProductImageFiles = p.ProductImageFiles.Select(p => new GetProductImagesQueryResponse
+                {
+                    Path = p.Storage == "LocalStorage" ? GetBase64($"{configuration["BaseStorageUrl"]}/{p.Path}") : $"{configuration["BaseStorageUrl"]}/{p.Path}",
+                    Showcase = p.Showcase
+                }).ToList()
+                }).ToList();
 
             return new()
             {
@@ -47,6 +57,17 @@ namespace ETicaretAPI.Application.Features.Queries.Product.GetAllProduct
 
                     
         }
-        
+
+        private static string GetBase64(string path)
+        {
+            var fileData = System.IO.File.ReadAllBytes(path);
+
+            if (fileData == null)
+                return String.Empty;
+
+            string base64String = Convert.ToBase64String(fileData, 0, fileData.Length);
+            return "data:image/png;base64," + base64String;
+        }
+
     }
 }

@@ -49,6 +49,7 @@ export class ListComponent implements OnInit {
            updatedDate: p.updatedDate,
            productImageFiles: p.productImageFiles,
          };
+
          return  listProduct;
 
        });
