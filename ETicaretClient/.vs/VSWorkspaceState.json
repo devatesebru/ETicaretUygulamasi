@@ -3,9 +3,14 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\services",
-    "\\src\\app\\services\\common"
+    "\\src\\app\\admin",
+    "\\src\\app\\admin\\components",
+    "\\src\\app\\admin\\components\\products",
+    "\\src\\app\\admin\\layout\\components",
+    "\\src\\app\\dialogs",
+    "\\src\\app\\dialogs\\select-product-image-dialog",
+    "\\src\\app\\ui\\components"
   ],
-  "SelectedNode": "\\src\\app\\services\\common\\signalr.service.ts",
+  "SelectedNode": "\\src\\app\\dialogs\\select-product-image-dialog\\select-product-image-dialog.component.html",
   "PreviewInSolutionExplorer": false
 }

@@ -12,6 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 
 
 
+
 @NgModule({
   declarations: [
     DeleteDialogComponent,
@@ -22,6 +23,7 @@ import { MatCardModule } from '@angular/material/card';
     CommonModule,
     MatDialogModule, MatButtonModule, MatCardModule,
     FileUploadModule,
+   
   
   ]
 })

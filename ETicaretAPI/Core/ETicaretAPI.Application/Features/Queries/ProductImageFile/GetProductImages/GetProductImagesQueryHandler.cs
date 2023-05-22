@@ -32,15 +32,15 @@ namespace ETicaretAPI.Application.Features.Queries.ProductImageFile.GetProductIm
             }).ToList();
         }
          private string GetBase64(string path)
-    {
-        var fileData = System.IO.File.ReadAllBytes(path);
+        {
+            var fileData = System.IO.File.ReadAllBytes(path);
 
-        if (fileData == null)
-            return String.Empty;
+            if (fileData == null)
+                return String.Empty;
 
-        string base64String = Convert.ToBase64String(fileData, 0, fileData.Length);
-        return "data:image/png;base64," + base64String;
-    }
+            string base64String = Convert.ToBase64String(fileData, 0, fileData.Length);
+            return "data:image/png;base64," + base64String;
+        }
     }
    
 }
